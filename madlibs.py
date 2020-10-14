@@ -17,16 +17,16 @@ AWESOMENESS = [
 
 @app.route('/')
 def start_here():
-    """Display homepage."""
+    """Display gamepage."""
 
-    return "Hi! This is the home page."
+    return render_template("compliment.html")
 
 
-@app.route('/hello')
-def say_hello():
-    """Say hello to user."""
+# @app.route('/hello')
+# def say_hello():
+#     """Say hello to user."""
 
-    return render_template("hello.html")
+#     return render_template("hello.html")
 
 
 @app.route('/greet')
@@ -35,11 +35,38 @@ def greet_person():
 
     player = request.args.get("person")
 
-    compliment = choice(AWESOMENESS)
 
     return render_template("compliment.html",
-                           person=player,
-                           compliment=compliment)
+                           person=player)
+
+@app.route('/game')
+def show_madlib_form():
+    """Ask to play a game."""
+
+    # return render_template("compliment.html")
+    answer = request.args.get("game")
+    print(answer)
+
+    if answer == "no":
+        return render_template("goodbye.html",
+                                game=answer)
+    elif answer == "yes": 
+        return render_template("game.html", game = answer)
+
+# def show_madlib_form():
+#     """Ask to play a game."""
+
+    
+
+@app.route('/madlib')
+def show_madlib():
+
+    person = request.args.get("person")
+    color = request.args.get("color")
+    noun = request.args.get("noun")
+
+    return render_template("madlib.html", person=person, color=color, noun =noun)
+
 
 
 if __name__ == '__main__':
